@@ -1,3 +1,8 @@
+"""
+Created 31/05/2024
+@author: Jessica Murphy
+"""
+
 import numpy as np 
 import matplotlib.pyplot as plt
 import astropy.units as u
