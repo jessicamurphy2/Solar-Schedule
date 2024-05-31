@@ -83,7 +83,7 @@ def parse_arguments():
   parser = argparse.ArgumentParser(description='Plot sun elevation over time.') # create argument parser
   parser.add_argument('-horizon', type=float, default=30.0, help='Horizon angle (degrees) for filtering sun elevation') # add argument for horizon
 
-return parser.parse_args()
+  return parser.parse_args()
 
 # Run script with specified horizon angle
 if __name__ == '__main__':
