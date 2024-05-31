@@ -61,9 +61,7 @@ def main (horizon):
   # Print the observation periods
   if observation_periods:
     # Format the observation periods to exlude periods below horizon in a 24hr cycle
-    periods_str = 'and'.join(
-      [f'{start.strftime('%Y-%m-%d %H:%M:%S')} to {end.strftime('%YY-%m-%d %H:%M:%S')}' for start, end in observation_periods]
-    )
+    periods_str = 'and'.join([f'{start.strftime('%Y-%m-%d %H:%M:%S')} to {end.strftime('%YY-%m-%d %H:%M:%S')}' for start, end in observation_periods])
     print(f'Observe during the following periods: {periods_str}')
   else:
     print('The sun does not rise above the specified horizon today.')
@@ -80,6 +78,16 @@ def main (horizon):
   plt.tight_layout()
   plt.show()
 
+# Define function to parse command line arguments
+def parse_arguments():
+  parser = argparse.ArgumentParser(description='Plot sun elevation over time.') # create argument parser
+  parser.add_argument('-horizon', type=float, default=30.0, help='Horizon angle (degrees) for filtering sun elevation') # add argument for horizon
 
+return parser.parse_args()
+
+# Run script with specified horizon angle
+if __name__ == '__main__':
+  args = parse_arguments() # call function to parse command line arguments
+  main(args.horizon) # call main function
 
 
