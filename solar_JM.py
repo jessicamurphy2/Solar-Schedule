@@ -61,7 +61,7 @@ def main (horizon):
   # Print the observation periods
   if observation_periods:
     # Format the observation periods to exlude periods below horizon in a 24hr cycle
-    periods_str = 'and'.join([f'{start.strftime('%Y-%m-%d %H:%M:%S')} to {end.strftime('%YY-%m-%d %H:%M:%S')}' for start, end in observation_periods])
+    periods_str = 'and'.join([f'{start.strftime("%Y-%m-%d %H:%M:%S")} to {end.strftime("%YY-%m-%d %H:%M:%S")}' for start, end in observation_periods])
     print(f'Observe during the following periods: {periods_str}')
   else:
     print('The sun does not rise above the specified horizon today.')
