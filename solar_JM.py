@@ -10,7 +10,7 @@ import astropy.units as u
 from astropy.time import Time
 from astropy.coordinates import get_sun, EarthLocation, AltAz
 # from astroplan import Observer
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 # Function to round to the nearest 10 minutes
 def minutes_rounded(dt):
@@ -30,8 +30,8 @@ def main (horizon):
   #                    location=location,
   #                    description="LOFAR Station IE613")
   
-  # Define the observation times
-  start_time = minutes_rounded(datetime.now())
+  # Define the observation times, use only UTC
+  start_time = minutes_rounded(datetime.now(timezone.utc))
   end_time = start_time + timedelta(days=1)
   delta_t = timedelta(minutes=10)  # time step
   times = np.arange(start_time, end_time, delta_t).astype(datetime)
