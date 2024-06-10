@@ -10,6 +10,11 @@ from astropy.time import Time
 from astropy.coordinates import get_sun, EarthLocation, AltAz
 # from astroplan import Observer
 from datetime import datetime, timedelta, timezone
+import subprocess
+
+process = subprocess.Popen(['./sun_flare_prob'],stdout=subprocess.PIPE)
+result  = process.communicate()
+print(result)
 
 # Function to round to the nearest 10 minutes
 def minutes_rounded(dt):
