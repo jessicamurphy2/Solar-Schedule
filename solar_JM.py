@@ -18,6 +18,10 @@ def minutes_rounded(dt):
         new_minute += 10 
     return dt.replace(minute=0, second=0, microsecond=0) + timedelta(minutes=new_minute) # Create rounded time
 
+def day_rounded(dt):
+    # Set to 1 minute past midnight UTC on date in question
+    return dt.replace(hour=0,minute=0, second=0, microsecond=0) + timedelta(hours=0,minutes=1) 
+
 def main (horizon, plot):
   # Set up Observer, Target, and observation time objects
   longitude = -7.9219 * u.deg
@@ -30,7 +34,7 @@ def main (horizon, plot):
   #                    description="LOFAR Station IE613")
   
   # Define the observation times, use only UTC
-  start_time = minutes_rounded(datetime.now(timezone.utc))
+  start_time = day_rounded(datetime.now(timezone.utc))
   end_time = start_time + timedelta(days=2)
   delta_t = timedelta(minutes=10)  # time step
   times = np.arange(start_time, end_time, delta_t).astype(datetime)
@@ -67,7 +71,7 @@ def main (horizon, plot):
   # Print the observation periods
   if observation_periods:
     # Format the observation periods to exlude periods below horizon in a 24hr cycle
-    periods_str = 'and'.join([f'{start.strftime("%Y-%m-%d %H:%M:%S")} to {end.strftime("%Y-%m-%d %H:%M:%S")}' for start, end in observation_periods])
+    periods_str = ' and '.join([f'{start.strftime("%Y-%m-%d %H:%M:%S")} to {end.strftime("%Y-%m-%d %H:%M:%S")}' for start, end in observation_periods])
     print(f'Observe during the following periods: {periods_str}')
   else:
     print('The sun does not rise above the specified horizon today.')
