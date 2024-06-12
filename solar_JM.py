@@ -4,7 +4,7 @@ Created 31/05/2024
 """
 
 import argparse
-import numpy as np 
+# import numpy as np 
 import astropy.units as u
 from astropy.time import Time
 from astropy.coordinates import get_sun, EarthLocation, AltAz
@@ -42,7 +42,7 @@ def main (horizon, plot):
   start_time = day_rounded(datetime.now(timezone.utc))
   end_time = start_time + timedelta(days=2)
   delta_t = timedelta(minutes=10)  # time step
-  times = np.arange(start_time, end_time, delta_t).astype(datetime)
+  times = [start_time + i * delta_t for i in range(int((end_time - start_time) / delta_t))]
   
   # Convert times to astropy Time objects
   astropy_times = Time(times)
