@@ -12,9 +12,27 @@ from astropy.coordinates import get_sun, EarthLocation, AltAz
 from datetime import datetime, timedelta, timezone
 import subprocess
 
-process = subprocess.Popen(['./sun_flare_prob'],stdout=subprocess.PIPE)
-result  = process.communicate()
-print(result)
+# Function to execute shell script
+def run_shell_script():
+    process = subprocess.Popen(['./sun_flare_prob'],stdout=subprocess.PIPE)
+    # process = subprocess.Popen(['bash', '-c', './sun_flare_prob.sh'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    result, _ = process.communicate()
+    return result.decode().strip()
+
+# Run shell script
+flare_probs = run_shell_script()
+
+def parse_flare_probs(flare_probs):
+    # Split the flare_probs string by spaces
+    probs = flare_probs.split()
+    # Check if there's exactly two values
+    if len(probs) == 2:
+        noaa_prob = int(probs[0])
+        mcstat_prob = int(probs[1])
+        return {'NOAA': noaa_prob, 'MCSTAT': mcstat_prob}
+
+# Parse the ouput
+categories = parse_flare_probs(flare_probs)
 
 # Function to round to the nearest 10 minutes
 def minutes_rounded(dt):
@@ -81,7 +99,7 @@ def main (horizon, plot, date):
   if observation_periods:
     # Format the observation periods to exlude periods below horizon in a 24hr cycle
     periods_str = ' and '.join([f'{start.strftime("%Y-%m-%dT%H:%M")} - {end.strftime("%Y-%m-%dT%H:%M")}' for start, end in observation_periods])
-    print(f'{periods_str}')
+    print(f'{periods_str} : [Sun357] # Flare probs: {categories.get("MCSTAT")}% MCSTAT {categories.get("NOAA")}% NOAA ')
   else:
     print('The sun does not rise above the specified horizon today.')
   
